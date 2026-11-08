@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Gestión de Citas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .admin-nav {
+            background-color: var(--dark-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: white;
+            text-decoration: none;
+        }
+        .brand-title span { color: var(--light-blue); }
+
+        .btn-nav-action {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-nav-action:hover {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+
+        .actions-right-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filters-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* Botones de Reporte PDF */
+        .pdf-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .btn-pdf-main {
+            background-color: var(--dark-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-pdf-main:hover {
+            background-color: var(--primary-blue);
+        }
+
+        .pdf-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            z-index: 100;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            margin-top: 5px;
+        }
+
+        .pdf-content button {
+            color: var(--text-dark);
+            padding: 10px 14px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            text-align: left;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .pdf-content button:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-blue);
+        }
+
+        .pdf-dropdown.active .pdf-content {
+            display: block;
+        }
+
+        .table-card {
+            background-color: white;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            vertical-align: middle;
+            color: var(--text-dark);
+        }
+
+        .badge-recurrente {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .action-btns { display: flex; gap: 8px; }
+        
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-confirmar { background-color: var(--success); color: white; }
+        .btn-cancelar { background-color: var(--danger); color: white; }
+        .btn-action:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav">
+        <a href="/static/index_admin.html" class="brand-title">ÓPTICA<span>LEB</span> | Gestión de Citas</a>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <a href="/static/index_admin.html" class="btn-nav-action">
+                <i class="fa-solid fa-boxes-stacked"></i> Ver Inventario
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-actions">
+            <h2 class="section-title">Listado de Citas</h2>
+            
+            <div class="actions-right-group">
+                <!-- Botón Desplegable para Reportes PDF -->
+                <div class="pdf-dropdown" id="pdfDropdown">
+                    <button class="btn-pdf-main" onclick="togglePdfMenu(event)">
+                        <i class="fa-solid fa-file-pdf"></i> Imprimir Reporte PDF ▼
+                    </button>
+                    <div class="pdf-content">
+                        <button onclick="generarReportePDF('dia')">📅 Citas de Hoy</button>
+                        <button onclick="generarReportePDF('semana')">📊 Citas de la Semana</button>
+                        <button onclick="generarReportePDF('mes')">📈 Citas del Mes</button>
+                    </div>
+                </div>
+
+                <div class="filters-tabs">
+                    <button class="tab-btn active" id="tabPendientes" onclick="cambiarFiltro('pendientes')">Pendientes</button>
+                    <button class="tab-btn" id="tabConfirmadas" onclick="cambiarFiltro('confirmadas')">Confirmadas</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Paciente</th>
+                        <th>Cédula / Teléfono</th>
+                        <th>Fecha de Cita</th>
+                        <th>Detalle de Solicitud</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="citasTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let filtroEstado = 'pendientes';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarCitas();
+        });
+
+        function cambiarFiltro(estado) {
+            filtroEstado = estado;
+            document.getElementById('tabPendientes').classList.toggle('active', estado === 'pendientes');
+            document.getElementById('tabConfirmadas').classList.toggle('active', estado === 'confirmadas');
+            cargarCitas();
+        }
+
+        // Control del menú desplegable de PDF
+        function togglePdfMenu(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('pdfDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('pdfDropdown');
+            if (dropdown && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function generarReportePDF(periodo) {
+            window.open(`/api/admin/reporte-citas-pdf?periodo=${periodo}`, '_blank');
+        }
+
+        async function cargarCitas() {
+            try {
+                const res = await fetch(`/api/admin/ventas?estado=${filtroEstado}`);
+                if (!res.ok) throw new Error('Error al obtener las citas');
+                const citas = await res.json();
+                renderTabla(citas);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderTabla(citas) {
+            const tbody = document.getElementById('citasTableBody');
+            tbody.innerHTML = '';
+
+            if (citas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">No hay citas ${filtroEstado}.</td></tr>`;
+                return;
+            }
+
+            citas.forEach(c => {
+                let recurrenteBadge = c.es_recurrente ? '<br><span class="badge-recurrente">⭐ Cliente Recurrente</span>' : '';
+                
+                let botonesAccion = '';
+                if (c.estado === 'pendiente') {
+                    botonesAccion = `
+                        <button class="btn-action btn-confirmar" onclick="confirmarCita(${c.id})">Confirmar</button>
+                        <button class="btn-action btn-cancelar" onclick="cancelarCita(${c.id})">Cancelar</button>
+                    `;
+                } else {
+                    botonesAccion = `<span style="color: var(--success); font-weight: 600; font-size: 0.8rem;">Confirmada</span>`;
+                }
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>#${c.id}</td>
+                        <td><strong>${c.nombre_cliente}</strong>${recurrenteBadge}</td>
+                        <td>${c.cedula}<br><span style="font-size:0.8rem; color:var(--text-muted);">${c.telefono}</span></td>
+                        <td>${c.fecha_cita}</td>
+                        <td style="max-width: 280px; font-size: 0.85rem;">${c.resumen_pedido}</td>
+                        <td><span style="text-transform: capitalize; font-weight: 600; color: ${c.estado === 'confirmada' ? 'var(--success)' : 'var(--warning)'};">${c.estado}</span></td>
+                        <td><div class="action-btns">${botonesAccion}</div></td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function confirmarCita(id) {
+            if (confirm('¿Deseas confirmar esta cita? (Si incluye montura, se descontará automáticamente del stock).')) {
+                try {
+                    const res = await fetch(`/api/admin/ventas/${id}/confirmar`, { method: 'POST' });
+                    if (res.ok) {
+                        cargarCitas();
+                    } else {
+                        const err = await res.json();
+                        alert(err.detail || 'Error al confirmar la cita.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        async function cancelarCita(id) {
+            if (confirm('¿Estás seguro de cancelar y eliminar esta cita?')) {
+                try {
+                    const res = await fetch(`/api/admin/ventas/${id}/cancelar`, { method: 'DELETE' });
+                    if (res.ok) {
+                        cargarCitas();
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

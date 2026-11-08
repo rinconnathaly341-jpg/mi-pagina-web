@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Catálogo de Monturas y Citas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+            --bg-sidebar: #e0f2fe;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--dark-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .logo-text span {
+            color: var(--light-blue);
+        }
+
+        .search-bar-container {
+            flex-grow: 1;
+            max-width: 450px;
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .header-search-input {
+            width: 100%;
+            padding: 9px 18px 9px 38px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .admin-link:hover {
+            color: var(--light-blue);
+        }
+
+        .btn-general-cita {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-general-cita:hover {
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+        }
+
+        /* --- ESTILOS MENÚ DESPLEGABLE USUARIO --- */
+        .user-menu-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .btn-user-dropdown {
+            background-color: #0369a1;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-user-dropdown:hover {
+            background-color: var(--primary-blue);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 210px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            margin-top: 6px;
+        }
+
+        .dropdown-content a, .dropdown-content button {
+            color: var(--text-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            text-align: left;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover, .dropdown-content button:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-blue);
+        }
+
+        .dropdown-content .delete-account {
+            color: #ef4444;
+        }
+        .dropdown-content .delete-account:hover {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .user-menu-wrapper.active .dropdown-content {
+            display: block;
+        }
+
+        .sub-nav {
+            background-color: #071322;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sub-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .sub-nav a:hover {
+            color: var(--light-blue);
+        }
+
+        /* --- NUEVO HERO BANNER CON IMAGEN Y DEGRADADO --- */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            min-height: 220px;
+            background-image: url('/static/banner_optica.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 60px;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Capa de degradado para mezclar la imagen con los tonos azules de la óptica */
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(11, 31, 54, 0.90) 0%, rgba(2, 132, 199, 0.80) 100%);
+            z-index: 1;
+        }
+
+        .hero-banner > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-banner h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-banner span {
+            font-weight: 300;
+            font-size: 1.1rem;
+            opacity: 0.95;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .main-container {
+            max-width: 1350px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .sidebar-filters {
+            background-color: #cffafe;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #bae6fd;
+        }
+
+        .filter-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: #0369a1;
+            margin-bottom: 12px;
+            margin-top: 18px;
+        }
+
+        .filter-section-title:first-child {
+            margin-top: 0;
+        }
+
+        .filter-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #334155;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox-label input {
+            accent-color: var(--primary-blue);
+        }
+
+        .catalog-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .catalog-top-bar h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary-blue);
+        }
+
+        .product-img-box {
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .product-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .product-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .btn-detail {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-detail:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .pagination-wrapper {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            background-color: white;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        footer {
+            background-color: var(--dark-blue);
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+                padding: 30px 20px;
+            }
+            .search-bar-container {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container" onclick="window.location.reload()">
+            <img id="logoAdminImg" src="/static/Logo%20pagina.png" alt="Logo" class="logo-img">
+            <div class="logo-text">ÓPTICA<span>LEB</span></div>
+        </div>
+
+        <div class="search-bar-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="header-search-input" placeholder="Buscar monturas...">
+        </div>
+
+        <div class="header-right" id="headerRightActions">
+            <!-- Se llena dinámicamente según si hay sesión iniciada -->
+        </div>
+    </header>
+
+    <div class="sub-nav">
+        <a onclick="window.location.reload()">Catálogo Principal de Monturas</a>
+    </div>
+
+    <!-- BANNER CON IMAGEN DE FONDO Y DEGRADADO -->
+    <div class="hero-banner">
+        <h1>CATÁLOGO DE MONTURAS Y CITAS</h1>
+        <span>Selecciona tu montura preferida o agenda tu cita directamente</span>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar-filters">
+            <div class="filter-section-title">Filtrar por Género</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;" id="genderFilterGroup">
+                <label class="filter-checkbox-label"><input type="radio" name="genRadio" value="todos" checked> Todos</label>
+                <label class="filter-checkbox-label"><input type="radio" name="genRadio" value="Hombre"> Hombre</label>
+                <label class="filter-checkbox-label"><input type="radio" name="genRadio" value="Mujer"> Mujer</label>
+                <label class="filter-checkbox-label"><input type="radio" name="genRadio" value="Unisex"> Unisex</label>
+            </div>
+        </aside>
+
+        <main>
+            <div class="catalog-top-bar">
+                <h3 id="catalogTitle">Monturas Disponibles</h3>
+            </div>
+
+            <div class="products-grid" id="catalogGrid">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <div class="pagination-wrapper" id="paginationControls"></div>
+        </main>
+    </div>
+
+    <footer>
+        © 2026 ÓPTICALEB. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        function verMontura(idMontura) {
+            window.location.href = `/static/interfaz_montura.html?id=${idMontura}`;
+        }
+
+        // --- GESTIÓN DE SESIÓN Y ACCESOS ---
+        function verificarSesionActiva() {
+            return JSON.parse(localStorage.getItem('optica_user'));
+        }
+
+        function renderizarHeaderUsuario() {
+            const headerRight = document.getElementById('headerRightActions');
+            const usuario = verificarSesionActiva();
+
+            if (!usuario) {
+                // No ha iniciado sesión
+                headerRight.innerHTML = `
+                    <button class="btn-general-cita" onclick="window.location.href='/static/login_usuarios.html'">Iniciar Sesión / Registrarse</button>
+                    <a class="admin-link" href="/static/login_admin.html" title="Panel de Administración"><span>🔒</span> Admin</a>
+                `;
+            } else {
+                // Ya inició sesión -> Mostrar menú desplegable
+                headerRight.innerHTML = `
+                    <div class="user-menu-wrapper" id="userMenuDropdown">
+                        <button class="btn-user-dropdown" onclick="toggleUserMenu(event)">
+                            👤 ${usuario.nombre_completo.split(' ')[0]} ▼
+                        </button>
+                        <div class="dropdown-content">
+                            <a onclick="agendarCitaGeneral()">📅 Agendar Cita</a>
+                            <a onclick="window.location.href='/static/cambiar_password.html'">🔑 Cambiar Contraseña</a>
+                            <button class="delete-account" onclick="eliminarCuentaUsuario()">🗑️ Borrar Cuenta</button>
+                            <button onclick="cerrarSesionUsuario()">🚪 Cerrar Sesión</button>
+                        </div>
+                    </div>
+                    <a class="admin-link" href="/static/login_admin.html" title="Panel de Administración"><span>🔒</span> Admin</a>
+                `;
+            }
+        }
+
+        function toggleUserMenu(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userMenuDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Cerrar menú si se hace clic fuera
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('userMenuDropdown');
+            if (dropdown && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function agendarCitaGeneral() {
+            const usuario = verificarSesionActiva();
+            if (!usuario) {
+                alert("Debes iniciar sesión o registrarte para poder agendar una cita.");
+                window.location.href = '/static/login_usuarios.html';
+                return;
+            }
+            window.location.href = '/static/agendar_cita.html';
+        }
+
+        function agendarConMontura(idMontura) {
+            const usuario = verificarSesionActiva();
+            if (!usuario) {
+                alert("Debes iniciar sesión o registrarte para poder agendar una cita con montura.");
+                window.location.href = '/static/login_usuarios.html';
+                return;
+            }
+            window.location.href = `/static/agendar_cita.html?montura_id=${idMontura}`;
+        }
+
+        function cerrarSesionUsuario() {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+                localStorage.removeItem('optica_user');
+                alert("Sesión cerrada exitosamente.");
+                window.location.reload();
+            }
+        }
+
+        async function eliminarCuentaUsuario() {
+            const usuario = verificarSesionActiva();
+            if (!usuario) return;
+
+            if (confirm("⚠️ ADVERTENCIA: Esta acción eliminará tu cuenta de forma permanente. ¿Estás totalmente seguro?")) {
+                try {
+                    const response = await fetch(`/api/clientes/${usuario.id}/eliminar`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        alert("Tu cuenta ha sido eliminada exitosamente.");
+                        localStorage.removeItem('optica_user');
+                        window.location.reload();
+                    } else {
+                        alert(data.detail || "Error al eliminar la cuenta.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Error de conexión con el servidor.");
+                }
+            }
+        }
+
+        let todasLasMonturas = [];
+        let monturasFiltradas = [];
+        let paginaActual = 1;
+        const monturasPorPagina = 9;
+
+        let filtroBusqueda = '';
+        let filtroGenero = 'todos';
+
+        async function cargarCatalogoCompleto() {
+            try {
+                const response = await fetch('/api/zapatos');
+                todasLasMonturas = await response.json();
+                aplicarFiltros();
+            } catch (error) {
+                console.error("Error al cargar el catálogo:", error);
+                document.getElementById('catalogGrid').innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted);">Error al conectar con la base de datos.</p>';
+            }
+        }
+
+        function aplicarFiltros() {
+            monturasFiltradas = todasLasMonturas.filter(m => {
+                const coincideTexto = m.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase()) || 
+                                     (m.marca && m.marca.toLowerCase().includes(filtroBusqueda.toLowerCase()));
+                
+                const coincideGen = (filtroGenero === 'todos') || (m.genero && m.genero.toLowerCase() === filtroGenero.toLowerCase());
+
+                return coincideTexto && coincideGen;
+            });
+
+            paginaActual = 1;
+            renderizarCatalogo();
+        }
+
+        function renderizarCatalogo() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+
+            if (monturasFiltradas.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted); text-align: center; padding: 40px;">No se encontraron monturas disponibles.</p>';
+                document.getElementById('paginationControls').innerHTML = '';
+                return;
+            }
+
+            const inicio = (paginaActual - 1) * monturasPorPagina;
+            const fin = inicio + monturasPorPagina;
+            const monturasPagina = monturasFiltradas.slice(inicio, fin);
+
+            monturasPagina.forEach(m => {
+                const card = `
+                    <div class="product-card" onclick="verMontura(${m.id})">
+                        <div class="product-img-box">
+                            <img src="${m.imagen_url || '/static/Logo%20pagina.png'}" alt="${m.nombre}">
+                        </div>
+                        <div>
+                            <div class="product-title">${m.nombre}</div>
+                            <div class="product-desc">${m.marca || 'Óptica Leb'} · ${m.genero || 'Unisex'}</div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$${parseFloat(m.precio).toFixed(2)}</div>
+                            <button class="btn-detail" onclick="event.stopPropagation(); agendarConMontura(${m.id})">Agendar Cita</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+
+            renderizarPaginacion();
+        }
+
+        function renderizarPaginacion() {
+            const contenedor = document.getElementById('paginationControls');
+            contenedor.innerHTML = '';
+            const totalPaginas = Math.ceil(monturasFiltradas.length / monturasPorPagina);
+            if (totalPaginas <= 1) return;
+
+            for (let i = 1; i <= totalPaginas; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === paginaActual ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.addEventListener('click', () => {
+                    paginaActual = i;
+                    renderizarCatalogo();
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
+                });
+                contenedor.appendChild(btn);
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            filtroBusqueda = e.target.value;
+            aplicarFiltros();
+        });
+
+        document.querySelectorAll('input[name="genRadio"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                filtroGenero = e.target.value;
+                aplicarFiltros();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarHeaderUsuario();
+            cargarCatalogoCompleto();
+        });
+    </script>
+</body>
+</html>

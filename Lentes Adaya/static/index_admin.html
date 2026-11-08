@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Panel de Administración</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+            --bg-accent: #f8fafc;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* --- NAVBAR --- */
+        .admin-nav {
+            background-color: var(--dark-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: white;
+        }
+        .brand-title span { color: var(--light-blue); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-badge {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .btn-nav-action {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .btn-nav-action:hover {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            border-color: var(--danger);
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+
+        .btn-add {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        .btn-add:hover { background-color: var(--dark-blue); }
+
+        .table-card {
+            background-color: white;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            vertical-align: middle;
+            color: var(--text-dark);
+        }
+
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #f1f5f9;
+        }
+
+        .badge-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-active { background-color: rgba(34, 197, 94, 0.1); color: var(--success); }
+        .badge-inactive { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .action-btns { display: flex; gap: 10px; }
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .btn-icon.edit:hover { color: var(--primary-blue); }
+        .btn-icon.delete:hover { color: var(--danger); }
+
+        /* Modales */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            color: var(--text-dark);
+            width: 100%;
+            max-width: 550px;
+            border-radius: 16px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group-full { grid-column: span 2; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .form-input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+
+        .modal-footer {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav">
+        <div class="brand-title">ÓPTICA<span>LEB</span> | Admin</div>
+        
+        <div class="nav-actions">
+            <span class="user-badge" id="userBadgeRole">Cargando...</span>
+
+            <!-- Botón exclusivo para Super Admin: Registrar nuevos admins -->
+            <button class="btn-nav-action" id="btnOpenRegAdmin" style="display: none;" onclick="abrirModalRegAdmin()">
+                <i class="fa-solid fa-user-plus"></i> Registrar Admin
+            </button>
+
+            <a href="/citas-admin" class="btn-nav-action">
+                <i class="fa-regular fa-calendar-check"></i> Gestión de Citas
+            </a>
+
+            <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-actions">
+            <h2 class="section-title">Inventario de Monturas</h2>
+            <button class="btn-add" id="btnOpenModal">
+                <i class="fa-solid fa-plus"></i> Añadir Montura
+            </button>
+        </div>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Marca</th>
+                        <th>Género</th>
+                        <th>Material</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="monturaTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Crear/Editar Montura -->
+    <div class="modal-overlay" id="monturaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nueva Montura</h3>
+                <button class="btn-icon" id="btnCloseModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form id="monturaForm">
+                <input type="hidden" id="monturaId">
+
+                <div class="form-grid">
+                    <div class="form-group form-group-full">
+                        <label>Nombre del Modelo</label>
+                        <input type="text" id="nombre" class="form-input" required placeholder="Ej: Ray-Ban Aviator">
+                    </div>
+
+                    <div class="form-group form-group-full">
+                        <label>Descripción</label>
+                        <textarea id="descripcion" class="form-input" rows="2" placeholder="Detalles de la montura..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" id="marca" class="form-input" required value="Óptica Leb">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Género</label>
+                        <select id="genero" class="form-input">
+                            <option value="Unisex">Unisex</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Material (Talla/Tipo)</label>
+                        <input type="text" id="talla" class="form-input" required placeholder="Ej: Acetato, Metálica, Titanio">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Precio ($)</label>
+                        <input type="number" step="0.01" id="precio" class="form-input" required placeholder="45.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Disponible</label>
+                        <input type="number" id="stock" class="form-input" required value="10">
+                    </div>
+
+                    <div class="form-group form-group-full">
+                        <label>Estado</label>
+                        <select id="activo" class="form-input">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group form-group-full">
+                        <label>Imagen de la Montura</label>
+                        <input type="file" id="imagenFile" class="form-input" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-logout" id="btnCancelModal" style="color:var(--text-dark); border-color:var(--border-light);">Cancelar</button>
+                    <button type="submit" class="btn-add">Guardar Montura</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Registrar Nuevo Admin (Solo Super Admin) -->
+    <div class="modal-overlay" id="regAdminModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Registrar Administrador</h3>
+                <button class="btn-icon" onclick="cerrarModalRegAdmin()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="regAdminForm">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Nuevo Usuario</label>
+                    <input type="text" id="nuevoAdminUser" class="form-input" required placeholder="Usuario nuevo">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Nueva Contraseña</label>
+                    <input type="password" id="nuevoAdminPass" class="form-input" required placeholder="••••••••">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Tu Contraseña de Super Admin (Confirmación)</label>
+                    <input type="password" id="superAdminPass" class="form-input" required placeholder="Tu contraseña actual">
+                </div>
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="button" class="btn-logout" onclick="cerrarModalRegAdmin()" style="color:var(--text-dark); border-color:var(--border-light);">Cancelar</button>
+                    <button type="submit" class="btn-add">Crear Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let monturasData = [];
+        const tableBody = document.getElementById('monturaTableBody');
+        const monturaModal = document.getElementById('monturaModal');
+        const monturaForm = document.getElementById('monturaForm');
+        const modalTitle = document.getElementById('modalTitle');
+
+        // Control de Sesión y Roles
+        const userRol = localStorage.getItem('admin_rol') || 'admin';
+        const userName = localStorage.getItem('admin_user') || 'Admin';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('userBadgeRole').textContent = `${userName} (${userRol.toUpperCase()})`;
+            
+            // Si es super_admin, mostramos el botón para registrar nuevos administradores
+            if (userRol === 'super_admin') {
+                document.getElementById('btnOpenRegAdmin').style.display = 'flex';
+            }
+
+            cargarMonturas();
+        });
+
+        async function cargarMonturas() {
+            try {
+                const res = await fetch('/api/admin/zapatos');
+                if (!res.ok) throw new Error('Error al cargar datos');
+                monturasData = await res.json();
+                renderTabla();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderTabla() {
+            tableBody.innerHTML = '';
+            monturasData.forEach(m => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <img src="${m.imagen_url || '/static/Logo%20pagina.png'}" class="img-thumb" alt="${m.nombre}">
+                    </td>
+                    <td><strong>${m.nombre}</strong></td>
+                    <td>${m.marca || 'Óptica Leb'}</td>
+                    <td>${m.genero || 'Unisex'}</td>
+                    <td>${m.material || m.talla || 'Acetato'}</td>
+                    <td>$${parseFloat(m.precio).toFixed(2)}</td>
+                    <td><strong>${m.stock}</strong></td>
+                    <td>
+                        <span class="badge-status ${m.activo ? 'badge-active' : 'badge-inactive'}">
+                            ${m.activo ? 'Activo' : 'Inactivo'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon edit" onclick="editarMontura(${m.id})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-icon delete" onclick="eliminarMontura(${m.id})"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Modal Inventario
+        document.getElementById('btnOpenModal').addEventListener('click', () => {
+            monturaForm.reset();
+            document.getElementById('monturaId').value = '';
+            document.getElementById('genero').value = 'Unisex';
+            document.getElementById('marca').value = 'Óptica Leb';
+            modalTitle.textContent = 'Nueva Montura';
+            monturaModal.style.display = 'flex';
+        });
+
+        document.getElementById('btnCloseModal').addEventListener('click', () => monturaModal.style.display = 'none');
+        document.getElementById('btnCancelModal').addEventListener('click', () => monturaModal.style.display = 'none');
+
+        monturaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('monturaId').value;
+            
+            const formData = new FormData();
+            formData.append('nombre', document.getElementById('nombre').value);
+            formData.append('descripcion', document.getElementById('descripcion').value);
+            formData.append('marca', document.getElementById('marca').value);
+            // Categoría fija por defecto como "gafas" para no requerir cambios estructurales en BD
+            formData.append('categoria', 'gafas');
+            formData.append('genero', document.getElementById('genero').value);
+            formData.append('precio', document.getElementById('precio').value);
+            formData.append('talla', document.getElementById('talla').value);
+            formData.append('stock', document.getElementById('stock').value);
+            formData.append('activo', document.getElementById('activo').value);
+
+            const fileInput = document.getElementById('imagenFile');
+            if (fileInput.files[0]) {
+                formData.append('imagen', fileInput.files[0]);
+            }
+
+            const url = id ? `/api/admin/zapatos/${id}` : '/api/admin/zapatos';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, { method, body: formData });
+                if (res.ok) {
+                    monturaModal.style.display = 'none';
+                    cargarMonturas();
+                } else {
+                    alert('Error al guardar la montura.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        window.editarMontura = (id) => {
+            const m = monturasData.find(item => item.id === id);
+            if (!m) return;
+
+            document.getElementById('monturaId').value = m.id;
+            document.getElementById('nombre').value = m.nombre;
+            document.getElementById('descripcion').value = m.descripcion || '';
+            document.getElementById('marca').value = m.marca || 'Óptica Leb';
+            document.getElementById('genero').value = m.genero || 'Unisex';
+            document.getElementById('precio').value = m.precio;
+            document.getElementById('talla').value = m.material || m.talla || 'Acetato';
+            document.getElementById('stock').value = m.stock;
+            document.getElementById('activo').value = m.activo ? "true" : "false";
+
+            modalTitle.textContent = 'Editar Montura';
+            monturaModal.style.display = 'flex';
+        };
+
+        window.eliminarMontura = async (id) => {
+            if (confirm('¿Estás seguro de que deseas eliminar esta montura?')) {
+                try {
+                    const res = await fetch(`/api/admin/zapatos/${id}`, { method: 'DELETE' });
+                    if (res.ok) cargarMonturas();
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        };
+
+        // Modal y Lógica para Registrar Admin (Super Admin exclusivo)
+        function abrirModalRegAdmin() {
+            document.getElementById('regAdminForm').reset();
+            document.getElementById('regAdminModal').style.display = 'flex';
+        }
+        function cerrarModalRegAdmin() {
+            document.getElementById('regAdminModal').style.display = 'none';
+        }
+
+        document.getElementById('regAdminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nuevo_username = document.getElementById('nuevoAdminUser').value.trim();
+            const nuevo_password = document.getElementById('nuevoAdminPass').value;
+            const super_admin_password = document.getElementById('superAdminPass').value;
+
+            try {
+                const res = await fetch('/api/admin/registrar-admin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        super_admin_username: userName,
+                        super_admin_password: super_admin_password,
+                        nuevo_username: nuevo_username,
+                        nuevo_password: nuevo_password,
+                        rol: 'admin'
+                    })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message || 'Administrador registrado con éxito.');
+                    cerrarModalRegAdmin();
+                } else {
+                    alert(data.detail || 'Error al registrar administrador.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error de conexión con el servidor.');
+            }
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            localStorage.removeItem('admin_user');
+            localStorage.removeItem('admin_rol');
+            window.location.href = '/static/index.html';
+        });
+    </script>
+</body>
+</html>

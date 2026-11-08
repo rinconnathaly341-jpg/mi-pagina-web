@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Acceso Admin</title>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0f172a;
+            --dark-blue: #0b1f36;
+            --primary-blue: #0284c7;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0b1f36 0%, #0f172a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: var(--light-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: #ffffff;
+            color: var(--text-dark);
+            border-radius: 16px;
+            padding: 40px 35px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border-top: 5px solid var(--primary-blue);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dark-blue);
+            margin-bottom: 6px;
+        }
+
+        .brand-title span {
+            color: var(--primary-blue);
+        }
+
+        .brand-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+            background-color: #ffffff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .alert-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+
+        .alert-message.error {
+            display: block;
+            background-color: #ffeeec;
+            border: 1px solid #f9cab8;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/static/index.html" class="back-home">← Volver a la Tienda</a>
+
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="brand-title">ÓPTICA<span>LEB</span></h1>
+            <p class="brand-subtitle">🔒 Panel de Administración</p>
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" id="username" class="form-input" placeholder="Nombre de usuario" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" id="btnSubmit" class="btn-submit">Ingresar al Sistema</button>
+        </form>
+
+        <div id="alertBox" class="alert-message"></div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('adminLoginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const alertBox = document.getElementById('alertBox');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnSubmit.disabled = true;
+            alertBox.style.display = 'none';
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            try {
+                const response = await fetch('/api/login-admin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Guardamos la sesión y el rol en localStorage para el panel
+                    localStorage.setItem('admin_user', data.username);
+                    localStorage.setItem('admin_rol', data.rol);
+                    window.location.href = '/admin';
+                } else {
+                    alertBox.textContent = 'Credenciales incorrectas.';
+                    alertBox.className = 'alert-message error';
+                    alertBox.style.display = 'block';
+                    btnSubmit.disabled = false;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alertBox.textContent = 'Error de conexión con el servidor.';
+                alertBox.className = 'alert-message error';
+                alertBox.style.display = 'block';
+                btnSubmit.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

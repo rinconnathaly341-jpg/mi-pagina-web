@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Detalle de la Montura</title>
+
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+            --bg-accent: #f8fafc;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background-color: var(--dark-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .brand-logo span { color: var(--light-blue); }
+
+        .brand-logo img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .btn-cita-nav {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-cita-nav:hover { background-color: var(--light-blue); color: var(--dark-blue); }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-back:hover { color: var(--primary-blue); }
+
+        .product-detail-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- IMAGEN --- */
+        .product-image-container {
+            background-color: var(--bg-accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: 380px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+
+        .product-image-container img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- INFO --- */
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-badge {
+            align-self: flex-start;
+            background-color: #e0f2fe;
+            color: var(--primary-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .product-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* ESPECIFICACIONES (Basado en models.py: material, stock, etc.) */
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background-color: var(--bg-accent);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .spec-item {
+            font-size: 0.85rem;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* BOTÓN DE ACCIÓN PARA AGENDAR CITA */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-agendar-cita {
+            flex: 1;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-agendar-cita:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-card { grid-template-columns: 1fr; padding: 20px; }
+            .navbar { padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/static/index.html" class="brand-logo">
+            <img src="/static/Logo%20pagina.png" alt="Logo Óptica Leb">
+            <div>ÓPTICA<span>LEB</span></div>
+        </a>
+        <a href="/static/agendar_cita.html" class="btn-cita-nav">📅 Agendar Cita General</a>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="main-container">
+        <a href="/static/index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Catálogo
+        </a>
+
+        <div class="product-detail-card" id="productCard">
+            <div style="grid-column: span 2; text-align: center; padding: 50px; color: var(--text-muted);">
+                Cargando información de la montura...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMontura = null;
+        const productCard = document.getElementById('productCard');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const monturaId = urlParams.get('id');
+
+            if (monturaId) {
+                cargarMontura(monturaId);
+            } else {
+                productCard.innerHTML = `
+                    <div style="grid-column: span 2; text-align: center; padding: 50px;">
+                        <h2>Montura no especificada</h2>
+                        <p style="color: var(--text-muted); margin-top: 10px;">Selecciona una montura válida desde el catálogo.</p>
+                    </div>`;
+            }
+        });
+
+        async function cargarMontura(id) {
+            try {
+                // Endpoint compatible con el backend adaptado
+                const res = await fetch(`/api/zapatos/${id}`);
+                if (!res.ok) throw new Error("Montura no encontrada");
+                currentMontura = await res.json();
+                renderDetalle();
+            } catch (err) {
+                console.error(err);
+                productCard.innerHTML = `
+                    <div style="grid-column: span 2; text-align: center; padding: 50px;">
+                        <h2>Error al cargar el producto</h2>
+                        <p style="color: var(--text-muted); margin-top: 10px;">La montura no existe o ya no está disponible.</p>
+                    </div>`;
+            }
+        }
+
+        function renderDetalle() {
+            const categoria = currentMontura.categoria || 'Urbano';
+            const materialMontura = currentMontura.talla || currentMontura.material || 'Acetato';
+            const stockDisponible = currentMontura.stock !== undefined ? currentMontura.stock : 10;
+
+            productCard.innerHTML = `
+                <div class="product-image-container">
+                    <img src="${currentMontura.imagen_url || '/static/Logo%20pagina.png'}" alt="${currentMontura.nombre}">
+                </div>
+
+                <div class="product-info">
+                    <span class="product-badge">${categoria}</span>
+                    <h1 class="product-title">${currentMontura.nombre}</h1>
+                    
+                    <div class="product-meta">
+                        <span>Marca: <strong>${currentMontura.marca || 'Óptica Leb'}</strong></span>
+                        <span>•</span>
+                        <span>Género: <strong>${currentMontura.genero || 'Unisex'}</strong></span>
+                    </div>
+
+                    <div class="product-price">$${parseFloat(currentMontura.precio).toFixed(2)}</div>
+
+                    <p class="product-description">
+                        ${currentMontura.descripcion || 'Montura oftalmológica de alta calidad, diseñada para brindar comodidad superior, durabilidad y un estilo impecable.'}
+                    </p>
+
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <span class="spec-label">Material del Marco</span>
+                            <span class="spec-value">${materialMontura}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Disponibilidad en Tienda</span>
+                            <span class="spec-value" style="color: ${stockDisponible > 0 ? 'var(--success)' : 'var(--text-muted)'}">
+                                ${stockDisponible > 0 ? `En Stock (${stockDisponible} unidades)` : 'Agotado'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="agendar_cita.html?montura_id=${currentMontura.id}" class="btn-agendar-cita" ${stockDisponible <= 0 ? 'style="pointer-events:none; opacity:0.5;"' : ''}>
+                            <i class="fa-regular fa-calendar-plus"></i> ${stockDisponible > 0 ? 'Reservar Montura y Agendar Cita' : 'Agotado Temporalmente'}
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

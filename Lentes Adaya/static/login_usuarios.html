@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Acceso de Usuarios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: var(--dark-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            color: white;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .logo-text span {
+            color: var(--light-blue);
+        }
+
+        .back-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--light-blue);
+        }
+
+        .auth-container {
+            max-width: 440px;
+            width: 100%;
+            margin: 40px auto;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            padding: 35px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .auth-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 11px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            outline: none;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0369a1;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .auth-switch a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            background-color: var(--dark-blue);
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container" onclick="window.location.href='/'">
+            <img src="/static/Logo%20pagina.png" alt="Logo" class="logo-img">
+            <div class="logo-text">ÓPTICA<span>LEB</span></div>
+        </div>
+        <a class="back-link" href="/">← Volver al Catálogo</a>
+    </header>
+
+    <div class="auth-container">
+        <!-- FORMULARIO DE INICIO DE SESIÓN -->
+        <div id="loginSection">
+            <h2 class="auth-title">Iniciar Sesión</h2>
+            <p class="auth-subtitle">Ingresa con tu correo o cédula para agendar tus citas</p>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico o Cédula</label>
+                    <input type="text" id="loginUsername" class="form-input" required placeholder="Ej: v12345678 o correo@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" id="loginPassword" class="form-input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+
+            <div class="auth-switch">
+                ¿No tienes cuenta? <a onclick="toggleForm('register')">Regístrate aquí</a>
+            </div>
+        </div>
+
+        <!-- FORMULARIO DE REGISTRO -->
+        <div id="registerSection" class="hidden">
+            <h2 class="auth-title">Crear Cuenta</h2>
+            <p class="auth-subtitle">Regístrate para agendar y autocompletar tus citas</p>
+            
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Nombre Completo (Nombres y Apellidos)</label>
+                    <input type="text" id="regNombre" class="form-input" required placeholder="Ej: Carlos Pérez">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cédula</label>
+                    <input type="text" id="regCedula" class="form-input" required placeholder="Ej: V-12345678">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Número de Teléfono</label>
+                    <input type="text" id="regTelefono" class="form-input" required placeholder="Ej: 04141234567">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" id="regCorreo" class="form-input" required placeholder="correo@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" id="regPassword" class="form-input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">Registrarse</button>
+            </form>
+
+            <div class="auth-switch">
+                ¿Ya tienes una cuenta? <a onclick="toggleForm('login')">Inicia sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 ÓPTICALEB. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        function toggleForm(tipo) {
+            const loginSec = document.getElementById('loginSection');
+            const regSec = document.getElementById('registerSection');
+            
+            if (tipo === 'register') {
+                loginSec.classList.add('hidden');
+                regSec.classList.remove('hidden');
+            } else {
+                regSec.classList.add('hidden');
+                loginSec.classList.remove('hidden');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/clientes/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('optica_user', JSON.stringify(data.usuario));
+                    alert("¡Bienvenido, " + data.usuario.nombre_completo + "!");
+                    window.location.href = '/';
+                } else {
+                    alert(data.detail || "Credenciales incorrectas.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor.");
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const nombre_completo = document.getElementById('regNombre').value.trim();
+            const cedula = document.getElementById('regCedula').value.trim();
+            const telefono = document.getElementById('regTelefono').value.trim();
+            const correo = document.getElementById('regCorreo').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const response = await fetch('/api/clientes/registro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre_completo, cedula, telefono, correo, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.");
+                    toggleForm('login');
+                } else {
+                    alert(data.detail || "Error al registrar la cuenta.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor.");
+            }
+        }
+    </script>
+</body>
+</html>

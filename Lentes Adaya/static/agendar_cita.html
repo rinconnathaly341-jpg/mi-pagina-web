@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÓPTICALEB | Agendar Cita</title>
+    <link rel="icon" type="image/png" href="/static/Logo%20pagina.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #ffffff;
+            --bg-accent: #f8fafc;
+            --primary-blue: #0284c7;
+            --dark-blue: #0b1f36;
+            --light-blue: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #cbd5e1;
+            --success-green: #22c55e;
+            --danger-red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .nav-bar {
+            background-color: var(--dark-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1.5px;
+        }
+        .brand-title span { color: var(--light-blue); }
+        .brand-title img { height: 32px; width: auto; }
+
+        .btn-back {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-back:hover { color: var(--light-blue); border-color: var(--light-blue); }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 6px;
+        }
+
+        /* Resumen de Montura Seleccionada */
+        .montura-resumen {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--bg-accent);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            margin-bottom: 25px;
+        }
+
+        .montura-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: white;
+            padding: 4px;
+        }
+
+        .montura-info h4 { font-size: 0.95rem; font-weight: 600; color: var(--dark-blue); }
+        .montura-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Formulario */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fff;
+        }
+        .form-input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+        .form-input[readonly] { background-color: #f1f5f9; color: var(--text-muted); cursor: not-allowed; }
+
+        .btn-submit {
+            background-color: var(--success-green);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn-submit:hover { opacity: 0.95; transform: translateY(-1px); }
+
+        /* Mensaje de error o alertas */
+        .alert-box {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-box.error { background-color: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; display: block; }
+        .alert-box.success { background-color: #dcfce7; border: 1px solid #86efac; color: #166534; display: block; }
+        .alert-box.recurrente { background-color: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; display: block; font-weight: 600; }
+
+        /* Modal WhatsApp */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background-color: white;
+            color: var(--text-dark);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.2);
+        }
+        .modal-icon { font-size: 3rem; color: var(--success-green); margin-bottom: 15px; }
+        .modal-box h3 { margin-bottom: 10px; font-size: 1.3rem; color: var(--dark-blue); }
+        .modal-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4; }
+        .btn-modal-ok {
+            background-color: var(--success-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .nav-bar { padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <a href="/static/index.html" class="brand-title">
+            <img src="/static/Logo%20pagina.png" alt="Logo Óptica Leb">
+            <div>ÓPTICA<span>LEB</span></div>
+        </a>
+        <a href="/static/index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Catálogo
+        </a>
+    </nav>
+
+    <div class="container">
+        <h2 class="page-title"><i class="fa-regular fa-calendar-check"></i> Formulario de Agendamiento</h2>
+
+        <div class="card-box">
+            <div id="alertBox" class="alert-box"></div>
+
+            <!-- Resumen de montura seleccionada si aplica -->
+            <div id="monturaContainer" style="display: none;">
+                <div class="section-subtitle">Montura Seleccionada para Reserva</div>
+                <div class="montura-resumen" id="monturaDetalleBox">
+                    <!-- Se llena con JS -->
+                </div>
+            </div>
+
+            <div class="section-subtitle">Datos del Paciente / Cliente</div>
+
+            <form id="formCita">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label class="form-label">Nombre Completo *</label>
+                        <input type="text" id="nombreCliente" class="form-input" required readonly title="Autocompletado desde tu cuenta">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Cédula de Identidad *</label>
+                        <input type="text" id="cedulaCliente" class="form-input" required readonly title="Autocompletado desde tu cuenta">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Número de Teléfono / WhatsApp *</label>
+                        <input type="tel" id="telefonoCliente" class="form-input" required readonly title="Autocompletado desde tu cuenta">
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="form-label">Fecha Deseada para la Cita * (Entre mañana y los próximos 30 días)</label>
+                        <input type="date" id="fechaCita" class="form-input" required>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <button type="submit" class="btn-submit" id="btnEnviarCita">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Registrar Cita y Enviar a WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal WhatsApp -->
+    <div class="modal-overlay" id="whatsappModal">
+        <div class="modal-box">
+            <i class="fa-brands fa-whatsapp modal-icon"></i>
+            <h3>¡Cita Registrada con Éxito!</h3>
+            <p id="modalText">Los datos se han guardado correctamente en el sistema. Serás redirigido al chat de WhatsApp de la óptica para confirmar tu solicitud.</p>
+            <button class="btn-modal-ok" id="btnModalOk">Continuar a WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        const NUMERO_WHATSAPP = "584120287540"; // Número de WhatsApp configurado
+        let monturaSeleccionada = null;
+        let urlWhatsAppFinal = "";
+        let usuarioActual = null;
+
+        // Obtener parámetros de la URL (si viene con un ID de montura)
+        const urlParams = new URLSearchParams(window.location.search);
+        const monturaIdParam = urlParams.get('montura_id');
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Validar sesión activa del usuario
+            usuarioActual = JSON.parse(localStorage.getItem('optica_user'));
+            if (!usuarioActual) {
+                alert("Debes iniciar sesión para agendar una cita.");
+                window.location.href = '/static/login_usuarios.html';
+                return;
+            }
+
+            // 2. Autocompletar datos del cliente
+            document.getElementById('nombreCliente').value = usuarioActual.nombre_completo || '';
+            document.getElementById('cedulaCliente').value = usuarioActual.cedula || '';
+            document.getElementById('telefonoCliente').value = usuarioActual.telefono || '';
+
+            // 3. Configurar rango de fechas: Mínimo mañana, Máximo 30 días a partir de hoy
+            const hoyMin = new Date();
+            hoyMin.setDate(hoyMin.getDate() + 1);
+            const fechaMinima = hoyMin.toISOString().split('T')[0];
+
+            const hoyMax = new Date();
+            hoyMax.setDate(hoyMax.getDate() + 30);
+            const fechaMaxima = hoyMax.toISOString().split('T')[0];
+
+            const inputFecha = document.getElementById('fechaCita');
+            inputFecha.min = fechaMinima;
+            inputFecha.max = fechaMaxima;
+            inputFecha.value = fechaMinima; // Valor por defecto sugerido para mañana
+
+            // 4. Cargar detalles de montura si aplica
+            if (monturaIdParam) {
+                await cargarDetallesMontura(monturaIdParam);
+            }
+        });
+
+        async function cargarDetallesMontura(id) {
+            try {
+                const res = await fetch(`/api/zapatos/${id}`);
+                if (res.ok) {
+                    monturaSeleccionada = await res.json();
+                    const container = document.getElementById('monturaContainer');
+                    const detalleBox = document.getElementById('monturaDetalleBox');
+
+                    detalleBox.innerHTML = `
+                        <img src="${monturaSeleccionada.imagen_url || '/static/Logo%20pagina.png'}" class="montura-img" alt="${monturaSeleccionada.nombre}">
+                        <div class="montura-info">
+                            <h4>${monturaSeleccionada.nombre}</h4>
+                            <p>Material: ${monturaSeleccionada.talla || 'Acetato'} | Precio: $${monturaSeleccionada.precio}</p>
+                        </div>
+                    `;
+                    container.style.display = 'block';
+                }
+            } catch (err) {
+                console.error("No se pudo cargar la montura seleccionada:", err);
+            }
+        }
+
+        // Envío del Formulario
+        document.getElementById('formCita').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = 'alert-box';
+            alertBox.style.display = 'none';
+
+            const nombre = document.getElementById('nombreCliente').value.trim();
+            const cedula = document.getElementById('cedulaCliente').value.trim();
+            const telefono = document.getElementById('telefonoCliente').value.trim();
+            const fecha = document.getElementById('fechaCita').value;
+
+            let resumenTexto = "";
+            let montoTotal = 0.00;
+            let monturaId = null;
+
+            if (monturaSeleccionada) {
+                resumenTexto = `Cita con reserva de montura: ${monturaSeleccionada.nombre} (ID: ${monturaSeleccionada.id}) - $${monturaSeleccionada.precio}`;
+                montoTotal = parseFloat(monturaSeleccionada.precio);
+                monturaId = monturaSeleccionada.id;
+            } else {
+                resumenTexto = `Cita Oftalmológica General (Sin montura predeterminada)`;
+                montoTotal = 0.00;
+                monturaId = null;
+            }
+
+            try {
+                const response = await fetch('/api/ventas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nombre_cliente: nombre,
+                        cedula: cedula,
+                        telefono: telefono,
+                        fecha_cita: fecha,
+                        montura_id: monturaId,
+                        resumen_solicitud: resumenTexto,
+                        monto_total: montoTotal,
+                        usuario_id: usuarioActual ? usuarioActual.id : null
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alertBox.textContent = data.detail || 'Ocurrió un error al registrar la cita.';
+                    alertBox.className = 'alert-box error';
+                    return;
+                }
+
+                if (data.es_recurrente) {
+                    alertBox.textContent = 'Cliente Recurrente detectado: Este paciente ya cuenta con múltiples citas confirmadas.';
+                    alertBox.className = 'alert-box recurrente';
+                }
+
+                // Construir mensaje para WhatsApp totalmente plano (Sin asteriscos de formato)
+                let mensajeWsp = "Hola Optica Leb. Quisiera agendar una cita:\n\n";
+                mensajeWsp += "Cliente: " + nombre + "\n";
+                mensajeWsp += "Cedula: " + cedula + "\n";
+                mensajeWsp += "Telefono: " + telefono + "\n";
+                mensajeWsp += "Fecha deseada: " + fecha + "\n";
+                mensajeWsp += "Detalle: " + resumenTexto + "\n\n";
+                mensajeWsp += "Quedo atento a la confirmacion. Muchas gracias!";
+
+                urlWhatsAppFinal = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensajeWsp)}`;
+
+                // Mostrar Modal de confirmación
+                document.getElementById('whatsappModal').style.display = 'flex';
+
+            } catch (error) {
+                console.error("Error de conexión:", error);
+                alertBox.textContent = 'Error de conexión al intentar registrar la cita con el servidor.';
+                alertBox.className = 'alert-box error';
+            }
+        });
+
+        document.getElementById('btnModalOk').addEventListener('click', () => {
+            window.location.href = urlWhatsAppFinal;
+        });
+    </script>
+</body>
+</html>
