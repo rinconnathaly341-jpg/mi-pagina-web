@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from datetime import datetime, date, timedelta
 import shutil
+import base64
 import bcrypt
 import os
 
@@ -610,11 +611,9 @@ async def admin_crear_montura(
 ):
     imagen_url = None
     if imagen and imagen.filename:
-        filename = f"{imagen.filename}".replace(" ", "_")
-        file_location = os.path.join(UPLOADS_DIR, filename)
-        with open(file_location, "wb") as buffer:
-            shutil.copyfileobj(imagen.file, buffer)
-        imagen_url = f"/static/uploads/{filename}"
+        contenido = imagen.file.read()
+        tipo = imagen.content_type or "image/jpeg"
+        imagen_url = f"data:{tipo};base64," + base64.b64encode(contenido).decode("utf-8")
 
     es_activo = True if str(activo).lower() in ["true", "1", "on"] else False
 
@@ -656,11 +655,9 @@ async def admin_actualizar_montura(
         raise HTTPException(status_code=404, detail="Montura no encontrada")
 
     if imagen and imagen.filename:
-        filename = f"{imagen.filename}".replace(" ", "_")
-        file_location = os.path.join(UPLOADS_DIR, filename)
-        with open(file_location, "wb") as buffer:
-            shutil.copyfileobj(imagen.file, buffer)
-        montura.imagen_url = f"/static/uploads/{filename}"
+        contenido = imagen.file.read()
+        tipo = imagen.content_type or "image/jpeg"
+        montura.imagen_url = f"data:{tipo};base64," + base64.b64encode(contenido).decode("utf-8")
 
     montura.nombre = nombre
     montura.descripcion = descripcion
