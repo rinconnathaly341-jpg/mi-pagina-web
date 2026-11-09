@@ -36,15 +36,16 @@
             justify-content: center;
             position: relative;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .back-home {
             position: absolute;
-            top: 30px;
-            left: 30px;
+            top: 20px;
+            left: 20px;
             color: var(--light-blue);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             display: flex;
@@ -59,23 +60,23 @@
             background-color: #ffffff;
             color: var(--text-dark);
             border-radius: 16px;
-            padding: 40px 35px;
+            padding: 25px 20px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
             border-top: 5px solid var(--primary-blue);
         }
 
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .brand-title {
-            font-size: 1.7rem;
+            font-size: 1.35rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--dark-blue);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .brand-title span {
@@ -84,31 +85,31 @@
 
         .brand-subtitle {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .form-label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
         }
 
         .form-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background-color: #f8fafc;
             border: 1px solid var(--border-light);
             border-radius: 8px;
             color: var(--text-dark);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             outline: none;
             transition: all 0.2s ease;
         }
@@ -121,7 +122,7 @@
 
         .btn-submit {
             width: 100%;
-            padding: 13px;
+            padding: 12px;
             background-color: var(--primary-blue);
             color: #ffffff;
             border: none;
@@ -129,9 +130,9 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 5px;
             transition: background-color 0.2s;
         }
 
@@ -140,10 +141,10 @@
         }
 
         .alert-message {
-            margin-top: 20px;
-            padding: 12px;
+            margin-top: 15px;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             display: none;
         }
@@ -153,6 +154,19 @@
             background-color: #ffeeec;
             border: 1px solid #f9cab8;
             color: #b91c1c;
+        }
+
+        @media (min-width: 768px) {
+            .back-home { top: 30px; left: 30px; font-size: 0.85rem; }
+            .login-card { padding: 40px 35px; max-width: 420px; width: 100%; }
+            .login-header { margin-bottom: 30px; }
+            .brand-title { font-size: 1.7rem; margin-bottom: 6px; }
+            .brand-subtitle { font-size: 0.85rem; }
+            .form-group { margin-bottom: 20px; }
+            .form-label { font-size: 0.75rem; margin-bottom: 8px; }
+            .form-input { padding: 12px 16px; font-size: 0.95rem; }
+            .btn-submit { padding: 13px; font-size: 0.85rem; margin-top: 10px; }
+            .alert-message { margin-top: 20px; padding: 12px; font-size: 0.85rem; }
         }
     </style>
 </head>

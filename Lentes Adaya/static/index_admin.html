@@ -34,13 +34,14 @@
             color: var(--text-dark);
             min-height: 100vh;
             padding-bottom: 40px;
+            overflow-x: hidden;
         }
 
         /* --- NAVBAR --- */
         .admin-nav {
             background-color: var(--dark-blue);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 40px;
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,7 +51,7 @@
         }
 
         .brand-title {
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 700;
             letter-spacing: 1px;
             color: white;
@@ -60,14 +61,15 @@
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .user-badge {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #cbd5e1;
             background: rgba(255,255,255,0.1);
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 20px;
         }
 
@@ -75,15 +77,15 @@
             background-color: rgba(255,255,255,0.1);
             color: white;
             border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             cursor: pointer;
         }
         .btn-nav-action:hover {
@@ -95,9 +97,9 @@
             background: none;
             border: 1px solid rgba(239, 68, 68, 0.5);
             color: #fca5a5;
-            padding: 8px 16px;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -110,19 +112,19 @@
         /* --- CONTENEDOR PRINCIPAL --- */
         .container {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
 
         .header-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-        }
+            margin-bottom: 20px;
+          }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: var(--dark-blue);
             font-weight: 700;
         }
@@ -131,13 +133,14 @@
             background-color: var(--primary-blue);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: background-color 0.3s;
         }
         .btn-add:hover { background-color: var(--dark-blue); }
@@ -146,7 +149,7 @@
             background-color: white;
             border: 1px solid var(--border-light);
             border-radius: 16px;
-            overflow: hidden;
+            overflow-x: auto;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
         }
 
@@ -154,49 +157,50 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
+            min-width: 650px;
         }
 
         th {
             background-color: #f1f5f9;
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 16px;
+            padding: 12px;
             border-bottom: 1px solid var(--border-light);
         }
 
         td {
-            padding: 16px;
+            padding: 12px;
             border-bottom: 1px solid var(--border-light);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             vertical-align: middle;
             color: var(--text-dark);
         }
 
         .img-thumb {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             object-fit: cover;
             background-color: #f1f5f9;
         }
 
         .badge-status {
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 12px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         .badge-active { background-color: rgba(34, 197, 94, 0.1); color: var(--success); }
         .badge-inactive { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
-        .action-btns { display: flex; gap: 10px; }
+        .action-btns { display: flex; gap: 8px; }
         .btn-icon {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -218,10 +222,10 @@
         .modal-content {
             background-color: white;
             color: var(--text-dark);
-            width: 100%;
+            width: 92%;
             max-width: 550px;
             border-radius: 16px;
-            padding: 30px;
+            padding: 20px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 25px rgba(0,0,0,0.1);
@@ -231,22 +235,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 12px;
         }
-        .form-group-full { grid-column: span 2; }
+        .form-group-full { grid-column: span 1; }
 
         .form-group label {
             display: block;
             font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -264,10 +268,36 @@
         .form-input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
 
         .modal-footer {
-            margin-top: 25px;
+            margin-top: 20px;
             display: flex;
             justify-content: flex-end;
-            gap: 12px;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .admin-nav { padding: 15px 40px; }
+            .brand-title { font-size: 1.4rem; }
+            .nav-actions { gap: 15px; }
+            .user-badge { font-size: 0.85rem; padding: 6px 12px; }
+            .btn-nav-action { padding: 8px 16px; font-size: 0.85rem; gap: 6px; }
+            .btn-logout { padding: 8px 16px; font-size: 0.85rem; }
+            .container { margin: 40px auto; padding: 0 20px; }
+            .header-actions { margin-bottom: 25px; }
+            .section-title { font-size: 1.8rem; }
+            .btn-add { padding: 12px 20px; font-size: 0.95rem; gap: 8px; }
+            .table-card { overflow-x: visible; }
+            table { min-width: 100%; }
+            th { font-size: 0.75rem; padding: 16px; }
+            td { padding: 16px; font-size: 0.9rem; }
+            .img-thumb { width: 50px; height: 50px; }
+            .badge-status { padding: 4px 10px; font-size: 0.75rem; }
+            .action-btns { gap: 10px; }
+            .btn-icon { font-size: 1rem; }
+            .modal-content { padding: 30px; width: 100%; }
+            .modal-header { margin-bottom: 20px; }
+            .form-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .form-group-full { grid-column: span 2; }
+            .modal-footer { margin-top: 25px; gap: 12px; }
         }
     </style>
 </head>
@@ -402,19 +432,19 @@
                 <button class="btn-icon" onclick="cerrarModalRegAdmin()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="regAdminForm">
-                <div class="form-group" style="margin-bottom: 15px;">
+                <div class="form-group" style="margin-bottom: 12px;">
                     <label>Nuevo Usuario</label>
                     <input type="text" id="nuevoAdminUser" class="form-input" required placeholder="Usuario nuevo">
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
+                <div class="form-group" style="margin-bottom: 12px;">
                     <label>Nueva Contraseña</label>
                     <input type="password" id="nuevoAdminPass" class="form-input" required placeholder="••••••••">
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
+                <div class="form-group" style="margin-bottom: 12px;">
                     <label>Tu Contraseña de Super Admin (Confirmación)</label>
                     <input type="password" id="superAdminPass" class="form-input" required placeholder="Tu contraseña actual">
                 </div>
-                <div class="modal-footer" style="margin-top: 20px;">
+                <div class="modal-footer" style="margin-top: 15px;">
                     <button type="button" class="btn-logout" onclick="cerrarModalRegAdmin()" style="color:var(--text-dark); border-color:var(--border-light);">Cancelar</button>
                     <button type="submit" class="btn-add">Crear Admin</button>
                 </div>
